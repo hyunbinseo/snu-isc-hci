@@ -1,7 +1,0 @@
-<script>
-	import Cards from '$lib/Cards.svelte';
-</script>
-
-<Cards
-	text="대통령은 내란 또는 외환의 죄를 범한 경우를 제외하고는 재직중 형사상의 소추를 받지 아니한다."
-/>

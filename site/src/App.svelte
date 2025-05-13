@@ -1,13 +1,15 @@
 <script lang="ts">
-	import { afterNavigate, goto } from '$app/navigation';
-	import { page } from '$app/state';
-	import { onMount } from 'svelte';
-	import '../app.css';
+	import './app.css';
+	import Cards from './lib/Cards.svelte';
 
-	afterNavigate(() => (dialog.scrollTop = 0));
-	onMount(() => goto('#/'));
+	const tabIds = ['home', 'all'] as const;
+	type TabId = (typeof tabIds)[number];
 
-	let { children } = $props();
+	let activeTabId = $state<TabId>(tabIds[0]);
+
+	const setTabId = (e: { currentTarget: HTMLButtonElement }) => {
+		activeTabId = e.currentTarget.value as TabId;
+	};
 
 	let dialog: HTMLDialogElement;
 	let isOpen = $state(false);
@@ -70,17 +72,24 @@
 	oncancel={close}
 	class="max-h-full max-w-full overflow-y-auto bg-gray-200 max-sm:w-full sm:right-6 sm:bottom-26 sm:ml-auto sm:h-160 sm:max-h-[calc(100%-var(--spacing)*32)] sm:w-96 sm:rounded-3xl sm:shadow-2xl"
 >
-	<form method="dialog" onsubmit={close} class="contents">
-		<nav class="sticky top-0 flex h-12 bg-white *:flex *:items-center *:justify-center *:px-6">
-			<!-- eslint-disable-next-line svelte/require-each-key -->
-			{#each [['#/', 'Home'], ['#/all', 'All']] as [href, label]}
-				{@const isActive = page.url.hash === href}
-				<a class={['flex-1', isActive && 'bg-blue-700 text-white']} {href}>{label}</a>
-			{/each}
-			<button class="sm:hidden">Close</button>
-		</nav>
-		{@render children()}
-	</form>
+	<nav class="sticky top-0 flex h-12 bg-white *:flex *:items-center *:justify-center *:px-6">
+		<!-- eslint-disable-next-line svelte/require-each-key -->
+		{#each tabIds as tabId}
+			<button
+				type="button"
+				onclick={setTabId}
+				value={tabId}
+				class={['flex-1 capitalize', activeTabId === tabId && 'bg-blue-700 text-white']}
+				>{tabId}</button
+			>
+		{/each}
+		<button type="button" onclick={close} class="sm:hidden">Close</button>
+	</nav>
+	<Cards
+		text={activeTabId === 'home'
+			? '대통령은 내란 또는 외환의 죄를 범한 경우를 제외하고는 재직중 형사상의 소추를 받지 아니한다.'
+			: '국회의원이 회기전에 체포 또는 구금된 때에는 현행범인이 아닌 한 국회의 요구가 있으면 회기중 석방된다.'}
+	></Cards>
 </dialog>
 
 <style>
