@@ -1,6 +1,4 @@
-packages:
-  - extension
-  - site
 onlyBuiltDependencies:
   - '@tailwindcss/oxide'
   - esbuild
+  - spawn-sync
