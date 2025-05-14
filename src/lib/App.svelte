@@ -48,7 +48,7 @@
 	}}
 />
 
-<div class="fixed inset-6 z-10 flex flex-col-reverse items-end gap-y-4">
+<div class="fixed right-6 bottom-6 z-10 flex flex-col-reverse items-end gap-y-4">
 	<button
 		type="button"
 		aria-label={!isOpen ? 'Open' : 'Close'}
@@ -71,7 +71,7 @@
 <dialog
 	bind:this={dialog}
 	oncancel={close}
-	class="z-10 max-h-full max-w-full overflow-y-auto bg-gray-200 max-sm:w-full sm:right-6 sm:bottom-26 sm:ml-auto sm:h-160 sm:max-h-[calc(100%-var(--spacing)*32)] sm:w-96 sm:rounded-3xl sm:shadow-2xl"
+	class="z-10 max-h-full max-w-full overflow-y-auto bg-gray-200 max-sm:w-full sm:fixed sm:right-6 sm:bottom-26 sm:mt-auto sm:ml-auto sm:h-160 sm:max-h-[calc(100%-var(--spacing)*32)] sm:w-96 sm:rounded-3xl sm:shadow-2xl"
 >
 	<nav class="sticky top-0 flex h-12 bg-white *:flex *:items-center *:justify-center *:px-6">
 		<!-- eslint-disable-next-line svelte/require-each-key -->
