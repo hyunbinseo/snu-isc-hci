@@ -1,5 +1,44 @@
 @import 'tailwindcss';
 
 @theme {
-	--spacing: 4px;
+	--spacing: calc(0.25 * 16px);
+	--breakpoint-sm: calc(40 * 16px);
+	--breakpoint-md: calc(48 * 16px);
+	--breakpoint-lg: calc(64 * 16px);
+	--breakpoint-xl: calc(80 * 16px);
+	--breakpoint-2xl: calc(96 * 16px);
+	--container-3xs: calc(16 * 16px);
+	--container-2xs: calc(18 * 16px);
+	--container-xs: calc(20 * 16px);
+	--container-sm: calc(24 * 16px);
+	--container-md: calc(28 * 16px);
+	--container-lg: calc(32 * 16px);
+	--container-xl: calc(36 * 16px);
+	--container-2xl: calc(42 * 16px);
+	--container-3xl: calc(48 * 16px);
+	--container-4xl: calc(56 * 16px);
+	--container-5xl: calc(64 * 16px);
+	--container-6xl: calc(72 * 16px);
+	--container-7xl: calc(80 * 16px);
+	--text-xs: calc(0.75 * 16px);
+	--text-sm: calc(0.875 * 16px);
+	--text-base: calc(1 * 16px);
+	--text-lg: calc(1.125 * 16px);
+	--text-xl: calc(1.25 * 16px);
+	--text-2xl: calc(1.5 * 16px);
+	--text-3xl: calc(1.875 * 16px);
+	--text-4xl: calc(2.25 * 16px);
+	--text-5xl: calc(3 * 16px);
+	--text-6xl: calc(3.75 * 16px);
+	--text-7xl: calc(4.5 * 16px);
+	--text-8xl: calc(6 * 16px);
+	--text-9xl: calc(8 * 16px);
+	--radius-xs: calc(0.125 * 16px);
+	--radius-sm: calc(0.25 * 16px);
+	--radius-md: calc(0.375 * 16px);
+	--radius-lg: calc(0.5 * 16px);
+	--radius-xl: calc(0.75 * 16px);
+	--radius-2xl: calc(1 * 16px);
+	--radius-3xl: calc(1.5 * 16px);
+	--radius-4xl: calc(2 * 16px);
 }
