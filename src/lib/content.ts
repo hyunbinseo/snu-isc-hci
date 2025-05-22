@@ -29,13 +29,23 @@ type AtoZ =
 type Article = {
 	id: `${AtoZ}${AtoZ}`;
 	sender?: string;
-	keyword: string;
+	keyword?: string;
 	title: string;
 	detail?: string;
 	at: string;
 	url?: `http://${string}` | `https://${string}`;
 	image?: false;
 };
+
+export const categories = [
+	'공모/모집',
+	'교외 프로그램',
+	'교육/강연',
+	'기타',
+	'문화/예술',
+	'장학',
+	'학사',
+] as const;
 
 export const articles: Readonly<{
 	'공모/모집': Article[];
@@ -44,7 +54,7 @@ export const articles: Readonly<{
 	'기타': Article[];
 	'문화/예술': Article[];
 	'장학': Article[];
-	'학사': Omit<Article, 'keyword'>[];
+	'학사': Article[];
 }> = {
 	'공모/모집': [
 		{

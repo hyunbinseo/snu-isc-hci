@@ -1,5 +1,6 @@
 <script lang="ts">
 	import './app.css';
+	import { articles, categories } from './content';
 
 	let dialog: HTMLDialogElement;
 	let isOpen = $state(false);
@@ -60,9 +61,30 @@
 <dialog
 	bind:this={dialog}
 	oncancel={close}
-	class="z-10 max-h-full max-w-full overflow-y-auto bg-gray-200 max-sm:w-full sm:fixed sm:right-6 sm:bottom-26 sm:mt-auto sm:ml-auto sm:h-160 sm:max-h-[calc(100%-var(--spacing)*32)] sm:w-96 sm:rounded-3xl sm:shadow-2xl"
+	class="z-10 max-h-full max-w-full overflow-y-auto bg-gray-200 max-sm:w-full sm:fixed sm:right-6 sm:bottom-26 sm:mt-auto sm:ml-auto sm:h-160 sm:max-h-[calc(100%-var(--spacing)*32)] sm:w-128 sm:rounded-3xl sm:shadow-2xl"
 >
-	<!-- TODO -->
+	<ul class="my-2 flex flex-col gap-y-0.5">
+		{#each categories as category}
+			{#each articles[category] as article}
+				<li id={article.id} class="flex h-32 justify-between gap-x-4 bg-white">
+					<div class="w-full overflow-x-hidden p-4 *:truncate">
+						<p class="text-sm">{[article.sender, article.keyword].filter(Boolean).join(' / ')}</p>
+						<h2 class="font-bold">{article.title}</h2>
+						<p>{article.detail}</p>
+						<p>{article.at}</p>
+					</div>
+					{#if article.image !== false}
+						<!-- svelte-ignore a11y_missing_attribute -->
+						<img
+							draggable="false"
+							src="/{article.id}.avif"
+							class="aspect-square size-32 shrink-0 object-cover object-top-left"
+						/>
+					{/if}
+				</li>
+			{/each}
+		{/each}
+	</ul>
 </dialog>
 
 <style>
