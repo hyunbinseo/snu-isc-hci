@@ -1,6 +1,9 @@
+@import '@sun-typeface/suit/fonts/variable/woff2/SUIT-Variable.css';
+
 @import 'tailwindcss';
 
 @theme {
+	--font-sans: 'SUIT Variable';
 	--spacing: calc(0.25 * 16px);
 	--breakpoint-sm: calc(40 * 16px);
 	--breakpoint-md: calc(48 * 16px);

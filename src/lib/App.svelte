@@ -1,19 +1,13 @@
 <script lang="ts">
 	import './app.css';
-	import Cards from './Cards.svelte';
-
-	const tabIds = ['home', 'all'] as const;
-	type TabId = (typeof tabIds)[number];
-
-	let activeTabId = $state<TabId>(tabIds[0]);
-
-	const setTabId = (e: { currentTarget: HTMLButtonElement }) => {
-		dialog.scrollTop = 0;
-		activeTabId = e.currentTarget.value as TabId;
-	};
 
 	let dialog: HTMLDialogElement;
 	let isOpen = $state(false);
+
+	const close = () => {
+		isOpen = false;
+		dialog.close();
+	};
 
 	const open = () => {
 		isOpen = true;
@@ -34,11 +28,6 @@
 			} catch {}
 			dialog.show();
 		}
-	};
-
-	const close = () => {
-		isOpen = false;
-		dialog.close();
 	};
 </script>
 
@@ -73,37 +62,10 @@
 	oncancel={close}
 	class="z-10 max-h-full max-w-full overflow-y-auto bg-gray-200 max-sm:w-full sm:fixed sm:right-6 sm:bottom-26 sm:mt-auto sm:ml-auto sm:h-160 sm:max-h-[calc(100%-var(--spacing)*32)] sm:w-96 sm:rounded-3xl sm:shadow-2xl"
 >
-	<nav class="sticky top-0 flex h-12 bg-white *:flex *:items-center *:justify-center *:px-6">
-		<!-- eslint-disable-next-line svelte/require-each-key -->
-		{#each tabIds as tabId}
-			<button
-				type="button"
-				onclick={setTabId}
-				value={tabId}
-				class={['flex-1 capitalize', activeTabId === tabId && 'bg-blue-700 text-white']}
-				>{tabId}</button
-			>
-		{/each}
-		<button type="button" onclick={close} class="sm:hidden">Close</button>
-	</nav>
-	<Cards
-		show={activeTabId === 'home'}
-		text="대통령은 내란 또는 외환의 죄를 범한 경우를 제외하고는 재직중 형사상의 소추를 받지 아니한다."
-	></Cards>
-	<Cards
-		show={activeTabId === 'all'}
-		text="국회의원이 회기전에 체포 또는 구금된 때에는 현행범인이 아닌 한 국회의 요구가 있으면 회기중 석방된다."
-	></Cards>
+	<!-- TODO -->
 </dialog>
 
 <style>
-	nav {
-		box-shadow:
-			0px 2px 4px -3px rgba(0, 0, 0, 0.2),
-			0px 4px 5px -2px rgba(0, 0, 0, 0.14),
-			0px 1px 10px -10px rgba(0, 0, 0, 0.12);
-	}
-
 	dialog[open] {
 		translate: 0 0;
 	}
