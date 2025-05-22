@@ -1,4 +1,51 @@
-export const articles = {
+type AtoZ =
+	| 'a'
+	| 'b'
+	| 'c'
+	| 'd'
+	| 'e'
+	| 'f'
+	| 'g'
+	| 'h'
+	| 'i'
+	| 'j'
+	| 'k'
+	| 'l'
+	| 'm'
+	| 'n'
+	| 'o'
+	| 'p'
+	| 'q'
+	| 'r'
+	| 's'
+	| 't'
+	| 'u'
+	| 'v'
+	| 'w'
+	| 'x'
+	| 'y'
+	| 'z';
+
+type Article = {
+	id: `${AtoZ}${AtoZ}`;
+	sender?: string;
+	keyword: string;
+	title: string;
+	detail?: string;
+	at: string;
+	url?: `http://${string}` | `https://${string}`;
+	image?: false;
+};
+
+export const articles: Readonly<{
+	'공모/모집': Article[];
+	'교외 프로그램': Article[];
+	'교육/강연': Article[];
+	'기타': Article[];
+	'문화/예술': Article[];
+	'장학': Article[];
+	'학사': Omit<Article, 'keyword'>[];
+}> = {
 	'공모/모집': [
 		{
 			id: 'bn',
@@ -13,6 +60,7 @@ export const articles = {
 			id: 'bf',
 			sender: '포스코스포츠센터',
 			title: 'PT 프로그램 할인',
+			keyword: '모집',
 			detail: '패키지 A 1개월 50% 할인 (10세션 55만 원)',
 			at: '포스코스포츠센터 2층 체련장 강사실',
 			url: 'https://spolex.snu.ac.kr/index.php',
@@ -20,6 +68,7 @@ export const articles = {
 		{
 			id: 'bp',
 			sender: '보건진료소',
+			keyword: '모집',
 			title: '무료 학생 건강 검진',
 			detail: '학부/석사/박사 과정생 연 1회. 예약 필수',
 			at: '매일 오전 9시 또는 13시 반',
@@ -59,6 +108,7 @@ export const articles = {
 			detail: '전공별 수강 가이드를 제작해 신입생의 예비대학 수강을 도와보세요.',
 			at: '신청: 6월 13일(금)까지',
 			url: 'https://extra.snu.ac.kr/ptfol/pgm/view.do?dataSeq=PGM012000783',
+			image: false,
 		},
 	],
 	'교외 프로그램': [
@@ -69,6 +119,7 @@ export const articles = {
 			detail: 'Exploring China: Sustainability, Innovation and History',
 			at: '신청: 6월 8일(일)까지',
 			url: 'https://my.snu.ac.kr/p/ST050103?b=2&ls=20&ln=1&px=7&sc=title&dm=r&p=11932',
+			image: false,
 		},
 		{
 			id: 'au',
@@ -77,6 +128,7 @@ export const articles = {
 			detail: '국립부경대학교, 기초과학자를위한해양탐사(2학점)',
 			at: '신청: 5월 9일(금)까지',
 			url: 'https://my.snu.ac.kr/p/ST050103?b=2&ls=20&ln=1&px=7&sc=title&dm=r&p=11918',
+			image: false,
 		},
 		{
 			id: 'bo',
@@ -93,6 +145,7 @@ export const articles = {
 			detail: 'Political Affairs Intern: Information analysis and data visualisation',
 			at: '신청: 2026년 4월 8일까지',
 			url: 'https://careers.un.org/jobSearchDescription/256641?language=en',
+			image: false,
 		},
 		{
 			id: 'aw',
@@ -120,6 +173,7 @@ export const articles = {
 			detail: '교육, 의료, 보건, 문화나눔, 취창업 역량 강화',
 			at: '신청: 5월 6일(화)까지',
 			url: 'https://snusr.snu.ac.kr/community/notice?md=v&bbsidx=2862',
+			image: false,
 		},
 		{
 			id: 'az',
@@ -144,11 +198,12 @@ export const articles = {
 		{
 			id: 'bz',
 			sender: '연계전공 러시아학',
-			keyword: '강연/간담회',
+			keyword: '강연 및 간담회',
 			title: '러시아-우크라이나 전쟁 이후의 세계: 역사가의 예상',
 			detail: '노경덕 교수 (인문대학 역사학부 서양사학전공)',
 			at: '5월 28일(수) 16시, 인문대 신양관',
 			url: 'https://www.snu.ac.kr/snunow/events?md=v&bbsidx=155280',
+			image: false,
 		},
 		{
 			id: 'ca',
@@ -220,6 +275,7 @@ export const articles = {
 			detail: '국내외 연구자들의 최신 연구를 듣고 논의할 수 있는 자리',
 			at: '6월 27일(금) 8:50, 암연구소 이건희홀/온라인',
 			url: 'https://cri.snu.ac.kr/research/conference/cri-symposium?md=view&confidx=21',
+			image: false,
 		},
 		{
 			id: 'ci',
@@ -229,6 +285,7 @@ export const articles = {
 			detail: '온라인 구강 건강 강좌 (교직원 교육이수 1시간 인정)',
 			at: '5월 27일(화) 12시',
 			url: 'https://docs.google.com/forms/d/e/1FAIpQLSdJM1FgaUOFEaEKqUY2JTX0ofUkO7cJrMQLW9iyIY0yknOtRQ/viewform',
+			image: false,
 		},
 	],
 	'기타': [
@@ -242,7 +299,7 @@ export const articles = {
 			url: 'https://forms.gle/AQgDhECBHeMSe1Bj8',
 		},
 	],
-	'문화': [
+	'문화/예술': [
 		{
 			id: 'bc',
 			sender: '컴퓨터연구소',
@@ -280,10 +337,11 @@ export const articles = {
 		{
 			id: 'bh',
 			sender: '학생사회공헌단',
-			keyword: '부스',
+			keyword: '행사',
 			title: '우리의 "마주봄"의 공간에 여러분을 초대합니다.',
 			detail: '학생사회공헌단 4개 프로젝트가 연합 부스를 운영합니다.',
 			at: '5월 19일(월)부터, 학생회관 앞',
+			image: false,
 		},
 		{
 			id: 'bi',
@@ -327,6 +385,7 @@ export const articles = {
 			detail: '한국장학재단 국가근로장학생 기본요건 충족자',
 			at: '신청: 6월 23일(월) 18시까지',
 			url: 'https://www.kosaf.go.kr',
+			image: false,
 		},
 		{
 			id: 'an',
@@ -335,6 +394,7 @@ export const articles = {
 			detail: '1학기 국가근로장학금 일반유형 신청 학부 재학생',
 			at: '신청: 5월 29일(목) 18시까지',
 			url: 'https://www.kosaf.go.kr',
+			image: false,
 		},
 		{
 			id: 'ao',
@@ -343,6 +403,7 @@ export const articles = {
 			detail: '전남 나주 출신 대학생 대상',
 			at: '신청: 5월 23일(금) 18시까지',
 			url: 'http://najuedfd.co.kr/',
+			image: false,
 		},
 		{
 			id: 'ap',
@@ -366,6 +427,7 @@ export const articles = {
 			title: '2학기 교내 장학금 신청',
 			detail: '미신청시 교내 및 발전재단 장학금 수혜 불가',
 			at: '신청: 6월 16일(월) 18시까지',
+			image: false,
 		},
 	],
 	'학사': [
@@ -380,6 +442,7 @@ export const articles = {
 			title: '학부대학 컴퓨팅 교과목 튜터 모집',
 			at: '신청: 5월 30일(금)까지',
 			url: 'https://forms.gle/SvgBvxc6qxjJgtcv7',
+			image: false,
 		},
 		{
 			id: 'ag',
