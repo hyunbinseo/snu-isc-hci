@@ -3,7 +3,7 @@
 	import { articles, categories, categoryDescriptions } from './content';
 </script>
 
-<div class="flex flex-col gap-y-4 bg-gray-200">
+<div class="flex min-h-full flex-col gap-y-4 bg-gray-200">
 	{#each categories as category, index}
 		{@const description = categoryDescriptions[category]}
 		<details open={index < 3}>
@@ -22,7 +22,7 @@
 		모두 읽음 처리
 	</button>
 	<nav
-		class="sticky bottom-0 flex justify-center gap-x-10 rounded-t-xl bg-white/75 px-6 backdrop-blur"
+		class="sticky bottom-0 mt-auto flex justify-center gap-x-10 rounded-t-xl bg-white/75 px-6 backdrop-blur select-none"
 	>
 		<form method="dialog" class="contents">
 			<button type="button" class="active">소식</button>
