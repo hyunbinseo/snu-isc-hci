@@ -49,6 +49,16 @@ export const categories = [
 
 type Category = (typeof categories)[number];
 
+export const categoryDescriptions: Readonly<Record<Category, string>> = {
+	'공모/모집': '서포터즈, 프로그램, 채용공고 등',
+	'교외 프로그램': '해외행사, 교환학생, 학점교류, 인턴십 등',
+	'교육/강연': '세미나, 콜로키움, 학술대회, 진로특강 등',
+	'기타': '설문조사, 뉴스레터 등',
+	'문화/예술': '전시, 공연, 연주회, 예술특강 등',
+	'장학': '교내 장학, 교외 장학, 근로장학 등',
+	'학사': '',
+};
+
 export const articles: Readonly<Record<Category, Article[]>> = {
 	'공모/모집': [
 		{

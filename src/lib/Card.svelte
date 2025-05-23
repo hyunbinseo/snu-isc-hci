@@ -7,7 +7,7 @@
 <li id={article.id}>
 	<div>
 		<p>{[article.keyword, article.sender].filter(Boolean).join(' / ')}</p>
-		<h2>{article.title}</h2>
+		<h3>{article.title}</h3>
 		<p>{article.detail}</p>
 		<p>{article.at}</p>
 	</div>
@@ -24,7 +24,7 @@
 		@apply flex h-36 bg-white break-keep;
 		> div:first-child {
 			@apply flex w-full flex-col overflow-x-hidden p-3;
-			> h2 {
+			> h3 {
 				@apply mt-0.5 mb-3.5 line-clamp-2 text-[17px]/tight font-bold text-balance;
 			}
 			> p {
