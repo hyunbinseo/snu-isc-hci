@@ -26,7 +26,7 @@ type AtoZ =
 	| 'y'
 	| 'z';
 
-type Article = {
+export type Article = {
 	id: `${AtoZ}${AtoZ}`;
 	sender?: string;
 	keyword?: string;
@@ -47,21 +47,15 @@ export const categories = [
 	'학사',
 ] as const;
 
-export const articles: Readonly<{
-	'공모/모집': Article[];
-	'교외 프로그램': Article[];
-	'교육/강연': Article[];
-	'기타': Article[];
-	'문화/예술': Article[];
-	'장학': Article[];
-	'학사': Article[];
-}> = {
+type Category = (typeof categories)[number];
+
+export const articles: Readonly<Record<Category, Article[]>> = {
 	'공모/모집': [
 		{
 			id: 'bn',
 			sender: '에너지신산업 혁신융합대학사업단',
 			keyword: '계절학기 연계',
-			title: '제4회 CO-Week Academy 참가자 모집',
+			title: 'CO-Week Academy 참가자 모집',
 			detail: '혁신융합대학 팝업 캠퍼스. 18개 컨소시엄이 준비한 132개의 강의를 만나보세요.',
 			at: '신청: 5월 20일(화)까지',
 			url: 'https://forms.gle/hwdDHWgqrQjqXcYP8',
@@ -134,7 +128,7 @@ export const articles: Readonly<{
 		{
 			id: 'au',
 			keyword: '교환학생',
-			title: '"기초과학자를 위한 해양탐사" 참가자 모집',
+			title: '기초과학자를 위한 해양탐사 참가자 모집',
 			detail: '국립부경대학교, 기초과학자를위한해양탐사(2학점)',
 			at: '신청: 5월 9일(금)까지',
 			url: 'https://my.snu.ac.kr/p/ST050103?b=2&ls=20&ln=1&px=7&sc=title&dm=r&p=11918',
@@ -161,7 +155,7 @@ export const articles: Readonly<{
 			id: 'aw',
 			sender: ' 에너지신산업 혁신융합대학사업단',
 			keyword: '해외연수',
-			title: '"에너지신산업 탐구생활 6기" 참가자 모집',
+			title: '에너지신산업 탐구생활 6기 참가자 모집',
 			detail: '미국 텍사스 휴스턴 지역 에너지 관련 기관 견학',
 			at: '신청: 5월 16일(금)까지',
 			url: 'https://forms.gle/C25f5DVG3WjS5WLM7',
@@ -189,7 +183,7 @@ export const articles: Readonly<{
 			id: 'az',
 			sender: '경력개발센터',
 			keyword: '설명회',
-			title: '"HongKong Talent Engage 채용 설명회',
+			title: 'HongKong Talent Engage 채용 설명회',
 			detail: 'HongKong: A World of Opportunities',
 			at: '5월 19일(월) 17:30, 롯데국제교육관',
 			url: 'https://extra.snu.ac.kr/ptfol/pgm/view.do?dataSeq=PGM012000778',
@@ -245,7 +239,7 @@ export const articles: Readonly<{
 			id: 'cd',
 			sender: '한국경제와 K학술확산 연구센터',
 			keyword: '저자 초청 특강',
-			title: '"경제 관료의 시대" 저자 홍제환 박사',
+			title: '경제 관료의 시대 저자 홍제환 박사',
 			detail: '고도성장기 한국 경제를 설계한 경제 관료들을 선정해 생애와 활약상을 살핀 책',
 			at: '5월 28일(수) 14:00, 우석경제관',
 			url: 'https://www.history.go.kr/board/boardDetail.do?groupId=000000000302&menuId=000000000424&pageId=000000000006&itemId=000000026490',
@@ -315,7 +309,7 @@ export const articles: Readonly<{
 			sender: '컴퓨터연구소',
 			keyword: '콘서트',
 			title: '주희성 교수와 함께하는 "민상렬홀 런치콘서트"',
-			detail: '미래의 음악 스타를 발굴하고 지원하고자 선발한 "민상렬홀 영아티스트"이 꾸미는 콘서트',
+			detail: '미래의 음악 스타를 발굴하고 지원하고자 선발한 "민상렬홀 영아티스트"가 꾸미는 콘서트',
 			at: '5월 27일(화) 12시',
 			url: 'https://event-us.kr/snuict/event/104552',
 		},
