@@ -1,15 +1,27 @@
 <script lang="ts">
 	import suitWoff2 from '@sun-typeface/suit/fonts/variable/woff2/SUIT-Variable.woff2?url';
-	import { onMount } from 'svelte';
+	import { DEV } from 'esm-env';
 	import { SvelteSet } from 'svelte/reactivity';
 	import './app.css';
+	import Bookmarks from './Bookmarks.svelte';
 	import { articles, categories } from './content';
 	import Home from './Home.svelte';
+	import Search from './Search.svelte';
+	import Welcome from './Welcome.svelte';
 
-	let url = $state<'Welcome' | 'Home' | 'Bookmark'>();
+	const pageIds = ['Home', 'Bookmarks', 'Search'] as const;
+	const pages = { Home, Bookmarks };
+
+	type PageId = (typeof pageIds)[number];
+	let pageId = $state<PageId>('Home'); // TODO Set to undefined.
+
+	const titles: Record<PageId, string> = {
+		Home: '소식',
+		Bookmarks: '보관함',
+		Search: '검색',
+	};
+
 	const bookmarkIds = new SvelteSet<string>();
-
-	onMount(() => (url = 'Home'));
 
 	let dialog: HTMLDialogElement;
 	let isOpen = $state(false);
@@ -53,7 +65,7 @@
 		if (isOpen) open();
 	}}
 	onbeforeunload={(e) => {
-		if (isOpen) e.preventDefault();
+		if (isOpen && !DEV) e.preventDefault();
 	}}
 />
 
@@ -108,15 +120,32 @@
 			}
 		}}
 	>
-		<Home {bookmarkIds}></Home>
+		<!-- TODO Keep scroll state when navigating between tabs. -->
+		{#each ['Home', 'Bookmarks'] as const as id}
+			{@const Page = pages[id]}
+			<div class={[pageId === id ? 'contents' : 'hidden']}>
+				<Page {bookmarkIds}></Page>
+			</div>
+		{/each}
+		{#if pageId === 'Search'}
+			<Search></Search>
+		{:else if pageId === undefined}
+			<Welcome></Welcome>
+		{/if}
 	</form>
 	<nav
 		class="sticky bottom-0 z-10 mt-auto flex justify-center gap-x-10 rounded-t-xl bg-white/75 px-6 backdrop-blur select-none"
 	>
 		<form method="dialog" class="contents">
-			<button type="button" class="active">소식</button>
-			<button type="button">보관함</button>
-			<button type="button">검색</button>
+			{#each pageIds as id}
+				{@const onclick = () => {
+					dialog.scrollTop = 0;
+					pageId = id;
+				}}
+				<button type="button" {onclick} class={[pageId === id && 'active']}>
+					{titles[id]}
+				</button>
+			{/each}
 			<button class="ml-auto sm:hidden">닫기</button>
 		</form>
 	</nav>

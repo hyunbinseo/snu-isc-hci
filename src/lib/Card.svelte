@@ -43,7 +43,7 @@
 
 	li {
 		&:has(input:checked) {
-			@apply m-2;
+			@apply p-2;
 		}
 		> label {
 			@apply relative bg-white text-left break-keep select-none;
@@ -62,7 +62,7 @@
 			&:has(input:checked) {
 				@apply flex flex-col;
 				> div {
-					@apply sticky top-10 bg-white;
+					@apply sticky top-(--card-sticky-top,0) bg-white;
 				}
 				> img {
 					@apply w-full;

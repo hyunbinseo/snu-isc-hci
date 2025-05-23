@@ -46,6 +46,10 @@
 <style>
 	@reference './app.css';
 
+	ul > :global(*) {
+		--card-sticky-top: calc(var(--spacing) * 10);
+	}
+
 	details {
 		> summary {
 			@apply sticky top-0 z-10 bg-white px-2 py-3 select-none;
