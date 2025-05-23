@@ -13,7 +13,9 @@
 			</summary>
 			<ul class="flex flex-col gap-y-0.5">
 				{#each articles[category] as article}
-					<Card {article}></Card>
+					<li id={article.id}>
+						<Card {article}></Card>
+					</li>
 				{/each}
 			</ul>
 		</details>
@@ -38,7 +40,7 @@
 
 	details {
 		> summary {
-			@apply sticky top-0 bg-white px-2 py-3 select-none;
+			@apply sticky top-0 z-10 bg-white px-2 py-3 select-none;
 			> h2 {
 				@apply inline font-bold;
 			}
@@ -47,7 +49,7 @@
 			}
 		}
 		&[open] > summary {
-			@apply border-b-4 border-gray-200 text-center;
+			@apply h-10 border-b-2 border-gray-200 py-0 text-center leading-10;
 			> p {
 				@apply hidden;
 			}

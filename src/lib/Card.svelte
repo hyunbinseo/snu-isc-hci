@@ -4,7 +4,8 @@
 	let { article }: { article: Article } = $props();
 </script>
 
-<li id={article.id}>
+<label>
+	<input type="checkbox" />
 	<div>
 		<p>{[article.keyword, article.sender].filter(Boolean).join(' / ')}</p>
 		<h3>{article.title}</h3>
@@ -15,14 +16,32 @@
 		<!-- svelte-ignore a11y_missing_attribute -->
 		<img draggable="false" src="/{article.id}.avif" />
 	{/if}
-</li>
+</label>
 
 <style>
 	@reference './app.css';
 
-	li {
-		@apply flex h-36 bg-white break-keep;
-		> div:first-child {
+	label {
+		> input[type='checkbox'] {
+			@apply hidden;
+		}
+		@apply bg-white text-left break-keep select-none;
+		&:has(input:not(:checked)) {
+			@apply flex h-36;
+			> img {
+				@apply aspect-[3/4] h-full shrink-0 object-cover object-top-left;
+			}
+		}
+		&:has(input:checked) {
+			@apply flex flex-col;
+			> div {
+				@apply sticky top-10 bg-white;
+			}
+			> img {
+				@apply w-full;
+			}
+		}
+		> div {
 			@apply flex w-full flex-col overflow-x-hidden p-3;
 			> h3 {
 				@apply mt-0.5 mb-3.5 line-clamp-2 text-[17px]/tight font-bold text-balance;
@@ -33,9 +52,6 @@
 			> :last-child {
 				@apply mt-auto;
 			}
-		}
-		> img:last-child {
-			@apply aspect-[3/4] h-full shrink-0 object-cover object-top-left;
 		}
 	}
 </style>
