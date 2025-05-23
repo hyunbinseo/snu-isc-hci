@@ -25,7 +25,7 @@
 					<h2>{category}</h2>
 					<p>{description}</p>
 				</summary>
-				<ul class="flex flex-col gap-y-0.5">
+				<ul class="space-y-0.5">
 					{#each articles[category] as article}
 						{@const isBookmarked = bookmarkIds.has(article.id)}
 						<Card {article} {isBookmarked}></Card>
