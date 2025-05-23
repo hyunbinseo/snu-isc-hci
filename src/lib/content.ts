@@ -467,3 +467,11 @@ export const articles: Readonly<Record<Category, Article[]>> = {
 		},
 	],
 };
+
+export const articleMap = new Map<string, Article>();
+
+for (const category of categories) {
+	for (const article of articles[category]) {
+		articleMap.set(article.id, article);
+	}
+}

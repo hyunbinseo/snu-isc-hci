@@ -1,39 +1,47 @@
 <script lang="ts">
+	import type { SvelteSet } from 'svelte/reactivity';
 	import Card from './Card.svelte';
 	import { articles, categories, categoryDescriptions } from './content';
+
+	let { bookmarkIds }: { bookmarkIds: SvelteSet<string> } = $props();
+	let isInboxZero = $state(false);
 </script>
 
-<div class="flex min-h-full flex-col gap-y-4 bg-gray-200">
-	{#each categories as category, index}
-		{@const description = categoryDescriptions[category]}
-		<details open={index < 3}>
-			<summary>
-				<h2>{category}</h2>
-				<p>{description}</p>
-			</summary>
-			<ul class="flex flex-col gap-y-0.5">
-				{#each articles[category] as article}
-					<li id={article.id}>
-						<Card {article}></Card>
-					</li>
-				{/each}
-			</ul>
-		</details>
-	{/each}
-	<button class="mx-auto my-8 w-fit rounded-full bg-white px-4 py-2 shadow">
-		모두 읽음 처리
-	</button>
-	<nav
-		class="sticky bottom-0 mt-auto flex justify-center gap-x-10 rounded-t-xl bg-white/75 px-6 backdrop-blur select-none"
-	>
-		<form method="dialog" class="contents">
-			<button type="button" class="active">소식</button>
-			<button type="button">보관함</button>
-			<button type="button">검색</button>
-			<button class="ml-auto sm:hidden">닫기</button>
-		</form>
-	</nav>
-</div>
+{#if isInboxZero}
+	<div class="flex min-h-full flex-col items-center justify-center gap-y-2">
+		<h2 class="text-xl font-bold">텅- 비었어요!</h2>
+		<button
+			type="button"
+			onclick={() => (isInboxZero = false)}
+			class="text-sm text-blue-600 underline underline-offset-4">잘못 눌렀어요.</button
+		>
+	</div>
+{:else}
+	<div class="flex min-h-full flex-col gap-y-4 bg-gray-200 pb-4">
+		{#each categories as category, index}
+			{@const description = categoryDescriptions[category]}
+			<details open={index < 3}>
+				<summary>
+					<h2>{category}</h2>
+					<p>{description}</p>
+				</summary>
+				<ul class="flex flex-col gap-y-0.5">
+					{#each articles[category] as article}
+						{@const isBookmarked = bookmarkIds.has(article.id)}
+						<Card {article} {isBookmarked}></Card>
+					{/each}
+				</ul>
+			</details>
+		{/each}
+		<button
+			type="button"
+			onclick={() => (isInboxZero = true)}
+			class="mx-auto my-6 w-fit rounded-full bg-white px-4 py-2 shadow"
+		>
+			모두 읽음 처리
+		</button>
+	</div>
+{/if}
 
 <style>
 	@reference './app.css';
@@ -57,18 +65,6 @@
 		&:not([open]) > summary > h2::after {
 			content: '\20*';
 			@apply text-red-700;
-		}
-	}
-	nav {
-		box-shadow:
-			0px -2px 4px -3px rgba(0, 0, 0, 0.2),
-			0px -4px 5px -2px rgba(0, 0, 0, 0.14),
-			0px -1px 10px -10px rgba(0, 0, 0, 0.12);
-		button {
-			@apply border-t-6 border-transparent pt-3.5 pb-4;
-			&.active {
-				@apply border-yellow-200 font-bold;
-			}
 		}
 	}
 </style>

@@ -1,14 +1,13 @@
 <script lang="ts">
 	import suitWoff2 from '@sun-typeface/suit/fonts/variable/woff2/SUIT-Variable.woff2?url';
 	import { onMount } from 'svelte';
+	import { SvelteSet } from 'svelte/reactivity';
 	import './app.css';
 	import { articles, categories } from './content';
 	import Home from './Home.svelte';
-	import Welcome from './Welcome.svelte';
 
-	let url = $state<keyof typeof pages>();
-	const pages = { Home, Welcome };
-	const Page = $derived(url && pages[url]);
+	let url = $state<'Welcome' | 'Home' | 'Bookmark'>();
+	const bookmarkIds = new SvelteSet<string>();
 
 	onMount(() => (url = 'Home'));
 
@@ -54,7 +53,7 @@
 		if (isOpen) open();
 	}}
 	onbeforeunload={(e) => {
-		if (isOpen && window.innerWidth < breakpoint) e.preventDefault();
+		if (isOpen) e.preventDefault();
 	}}
 />
 
@@ -93,12 +92,39 @@
 
 		if (isManuallyClosed) isOpen = false;
 	}}
-	class="z-10 max-h-full max-w-full overflow-y-auto bg-white open:fixed max-sm:w-full max-sm:open:h-full sm:right-6 sm:bottom-26 sm:mt-auto sm:ml-auto sm:h-160 sm:max-h-[calc(100%-var(--spacing)*32)] sm:w-96 sm:shadow-2xl"
+	class="z-10 max-h-full max-w-full overflow-y-auto bg-white open:fixed open:flex open:flex-col max-sm:w-full max-sm:open:h-full sm:right-6 sm:bottom-26 sm:mt-auto sm:ml-auto sm:h-160 sm:max-h-[calc(100%-var(--spacing)*32)] sm:w-96 sm:shadow-2xl"
 >
-	<Page></Page>
+	<form
+		class="flex-1"
+		onsubmit={(e) => {
+			e.preventDefault();
+			if (e.submitter instanceof HTMLButtonElement && e.submitter.name === 'bookmark') {
+				const button = e.submitter;
+				if (bookmarkIds.has(button.value)) {
+					bookmarkIds.delete(button.value);
+				} else {
+					bookmarkIds.add(button.value);
+				}
+			}
+		}}
+	>
+		<Home {bookmarkIds}></Home>
+	</form>
+	<nav
+		class="sticky bottom-0 z-10 mt-auto flex justify-center gap-x-10 rounded-t-xl bg-white/75 px-6 backdrop-blur select-none"
+	>
+		<form method="dialog" class="contents">
+			<button type="button" class="active">소식</button>
+			<button type="button">보관함</button>
+			<button type="button">검색</button>
+			<button class="ml-auto sm:hidden">닫기</button>
+		</form>
+	</nav>
 </dialog>
 
 <style>
+	@reference './app.css';
+
 	dialog[open] {
 		translate: 0 0;
 		opacity: 1;
@@ -125,6 +151,19 @@
 		dialog {
 			transition-behavior: allow-discrete;
 			transition-property: opacity, translate, display, overlay;
+		}
+	}
+
+	nav {
+		box-shadow:
+			0px -2px 4px -3px rgba(0, 0, 0, 0.2),
+			0px -4px 5px -2px rgba(0, 0, 0, 0.14),
+			0px -1px 10px -10px rgba(0, 0, 0, 0.12);
+		button {
+			@apply border-t-6 border-transparent pt-3.5 pb-4;
+			&.active {
+				@apply border-yellow-200 font-bold;
+			}
 		}
 	}
 </style>
