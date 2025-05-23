@@ -90,26 +90,20 @@
 <style>
 	dialog[open] {
 		translate: 0 0;
-	}
-
-	dialog[open],
-	dialog[open]::backdrop {
 		opacity: 1;
+		&::backdrop {
+			opacity: 0;
+		}
 	}
 
 	@starting-style {
 		dialog[open] {
 			translate: 0 2rem;
-		}
-
-		dialog[open],
-		dialog[open]::backdrop {
 			opacity: 0;
 		}
 	}
 
-	dialog,
-	dialog::backdrop {
+	dialog {
 		opacity: 0;
 		transition-duration: 0.5s;
 		transition-property: opacity, translate;
@@ -117,8 +111,7 @@
 	}
 
 	@supports (transition-behavior: allow-discrete) and (overlay: auto) {
-		dialog,
-		dialog::backdrop {
+		dialog {
 			transition-behavior: allow-discrete;
 			transition-property: opacity, translate, display, overlay;
 		}
