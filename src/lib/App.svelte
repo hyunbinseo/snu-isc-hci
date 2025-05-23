@@ -14,15 +14,11 @@
 
 	let dialog: HTMLDialogElement;
 	let isOpen = $state(false);
-
-	const close = () => {
-		isOpen = false;
-		dialog.close();
-	};
+	const breakpoint = 640;
 
 	const open = () => {
 		isOpen = true;
-		if (window.innerWidth < 640) {
+		if (window.innerWidth < breakpoint) {
 			try {
 				dialog.showModal();
 			} catch {
@@ -57,13 +53,21 @@
 	onresize={() => {
 		if (isOpen) open();
 	}}
+	onbeforeunload={(e) => {
+		if (isOpen && window.innerWidth < breakpoint) e.preventDefault();
+	}}
 />
 
 <div class="fixed right-6 bottom-6 z-10 flex flex-col-reverse items-end gap-y-4">
 	<button
 		type="button"
 		aria-label={!isOpen ? 'Open' : 'Close'}
-		onclick={!isOpen ? open : close}
+		onclick={!isOpen
+			? open
+			: () => {
+					dialog.close();
+					isOpen = false;
+				}}
 		class="flex size-14 items-center justify-center rounded-3xl bg-indigo-700 text-white shadow-2xl"
 	>
 		<svg
@@ -82,6 +86,13 @@
 <dialog
 	bind:this={dialog}
 	oncancel={() => (isOpen = false)}
+	onsubmit={(e) => {
+		const isManuallyClosed =
+			e.target instanceof HTMLFormElement && //
+			e.target.method === 'dialog';
+
+		if (isManuallyClosed) isOpen = false;
+	}}
 	class="z-10 max-h-full max-w-full overflow-y-auto bg-white open:fixed max-sm:w-full max-sm:open:h-full sm:right-6 sm:bottom-26 sm:mt-auto sm:ml-auto sm:h-160 sm:max-h-[calc(100%-var(--spacing)*32)] sm:w-96 sm:shadow-2xl"
 >
 	<Page></Page>
