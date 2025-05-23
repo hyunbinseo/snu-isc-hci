@@ -1,11 +1,32 @@
 <script lang="ts">
-	import type { SvelteSet } from 'svelte/reactivity';
 	import Card from './Card.svelte';
-	import { articles, categories, categoryDescriptions } from './content';
+	import { articles, categories, type Category, categoryDescriptions } from './content';
 
-	let { bookmarkIds }: { bookmarkIds: SvelteSet<string> } = $props();
+	let {
+		bookmarkSet,
+		categorySet,
+	}: {
+		bookmarkSet: Set<string>;
+		categorySet: Set<Category>;
+	} = $props();
+
 	let isInboxZero = $state(false);
 </script>
+
+{#snippet details(category: Category, open?: true)}
+	<details {open}>
+		<summary>
+			<h2>{category}</h2>
+			<p>{categoryDescriptions[category]}</p>
+		</summary>
+		<ul class="space-y-0.5">
+			{#each articles[category] as article}
+				{@const isBookmarked = bookmarkSet.has(article.id)}
+				<Card {article} {isBookmarked}></Card>
+			{/each}
+		</ul>
+	</details>
+{/snippet}
 
 {#if isInboxZero}
 	<div class="flex min-h-full flex-col items-center justify-center gap-y-2">
@@ -18,20 +39,13 @@
 	</div>
 {:else}
 	<div class="flex min-h-full flex-col gap-y-4 bg-gray-200 pb-4">
-		{#each categories as category, index}
-			{@const description = categoryDescriptions[category]}
-			<details open={index < 3}>
-				<summary>
-					<h2>{category}</h2>
-					<p>{description}</p>
-				</summary>
-				<ul class="space-y-0.5">
-					{#each articles[category] as article}
-						{@const isBookmarked = bookmarkIds.has(article.id)}
-						<Card {article} {isBookmarked}></Card>
-					{/each}
-				</ul>
-			</details>
+		{#each categorySet as category}
+			{@render details(category, true)}
+		{/each}
+		{#each categories as category}
+			{#if !categorySet.has(category)}
+				{@render details(category)}
+			{/if}
 		{/each}
 		<button
 			type="button"

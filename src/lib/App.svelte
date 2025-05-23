@@ -4,7 +4,7 @@
 	import { SvelteSet } from 'svelte/reactivity';
 	import './app.css';
 	import Bookmarks from './Bookmarks.svelte';
-	import { articles, categories } from './content';
+	import { articles, categories, type Category } from './content';
 	import Home from './Home.svelte';
 	import Search from './Search.svelte';
 	import Welcome from './Welcome.svelte';
@@ -13,7 +13,7 @@
 	const pages = { Home, Bookmarks };
 
 	type PageId = (typeof pageIds)[number];
-	let pageId = $state<PageId>('Home'); // TODO Set to undefined.
+	let pageId = $state<PageId>('Home');
 
 	const titles: Record<PageId, string> = {
 		Home: '소식',
@@ -21,9 +21,10 @@
 		Search: '검색',
 	};
 
-	const bookmarkIds = new SvelteSet<string>();
+	const categorySet = new SvelteSet<Category>();
+	const bookmarkSet = new SvelteSet<string>();
 
-	let dialog: HTMLDialogElement;
+	let dialog = $state<HTMLDialogElement>()!;
 	let isOpen = $state(false);
 	const breakpoint = 640;
 
@@ -112,37 +113,39 @@
 			e.preventDefault();
 			if (e.submitter instanceof HTMLButtonElement && e.submitter.name === 'bookmark') {
 				const button = e.submitter;
-				if (bookmarkIds.has(button.value)) {
-					bookmarkIds.delete(button.value);
+				if (bookmarkSet.has(button.value)) {
+					bookmarkSet.delete(button.value);
 				} else {
-					bookmarkIds.add(button.value);
+					bookmarkSet.add(button.value);
 				}
 			}
 		}}
 	>
-		<!-- TODO Keep scroll state when navigating between tabs. -->
-		{#each ['Home', 'Bookmarks'] as const as id}
-			{@const Page = pages[id]}
-			<div class={[pageId === id ? 'contents' : 'hidden']}>
-				<Page {bookmarkIds}></Page>
-			</div>
-		{/each}
-		{#if pageId === 'Search'}
+		{#if !categorySet.size}
+			<Welcome {categorySet} {dialog}></Welcome>
+		{:else if pageId === 'Search'}
 			<Search></Search>
-		{:else if pageId === undefined}
-			<Welcome></Welcome>
+		{:else if pageId === 'Bookmarks'}
+			<Bookmarks {bookmarkSet}></Bookmarks>
+		{:else if pageId === 'Home'}
+			<!-- TODO Keep scroll state on navigation. -->
+			<Home {bookmarkSet} {categorySet}></Home>
 		{/if}
 	</form>
 	<nav
 		class="sticky bottom-0 z-10 mt-auto flex justify-center gap-x-10 rounded-t-xl bg-white/75 px-6 backdrop-blur select-none"
+		hidden={!categorySet.size}
 	>
 		<form method="dialog" class="contents">
 			{#each pageIds as id}
-				{@const onclick = () => {
-					dialog.scrollTop = 0;
-					pageId = id;
-				}}
-				<button type="button" {onclick} class={[pageId === id && 'active']}>
+				<button
+					type="button"
+					onclick={() => {
+						dialog.scrollTop = 0;
+						pageId = id;
+					}}
+					class={[pageId === id && 'active']}
+				>
 					{titles[id]}
 				</button>
 			{/each}

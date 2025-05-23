@@ -43,7 +43,7 @@
 
 	li {
 		&:has(input:checked) {
-			@apply p-2;
+			@apply m-2; /* For margin collapse. */
 		}
 		> label {
 			@apply relative bg-white text-left break-keep select-none;
@@ -87,7 +87,7 @@
 				}
 			}
 			> a {
-				@apply m-4 rounded bg-blue-600 p-2 text-center text-white hover:bg-blue-700;
+				@apply m-4 rounded bg-blue-600 p-2 text-center text-sm text-white;
 			}
 		}
 	}

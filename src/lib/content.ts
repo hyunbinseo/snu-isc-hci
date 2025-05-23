@@ -41,13 +41,13 @@ export const categories = [
 	'공모/모집',
 	'교외 프로그램',
 	'교육/강연',
-	'기타',
 	'문화/예술',
 	'장학',
 	'학사',
+	'기타',
 ] as const;
 
-type Category = (typeof categories)[number];
+export type Category = (typeof categories)[number];
 
 export const categoryDescriptions: Readonly<Record<Category, string>> = {
 	'공모/모집': '서포터즈, 프로그램, 채용공고 등',
@@ -56,7 +56,7 @@ export const categoryDescriptions: Readonly<Record<Category, string>> = {
 	'기타': '설문조사, 뉴스레터 등',
 	'문화/예술': '전시, 공연, 연주회, 예술특강 등',
 	'장학': '교내 장학, 교외 장학, 근로장학 등',
-	'학사': '',
+	'학사': '수강신청, 튜터 모집 등',
 };
 
 export const articles: Readonly<Record<Category, Article[]>> = {
