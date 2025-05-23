@@ -1,4 +1,5 @@
 <script lang="ts">
+	import suitWoff2 from '@sun-typeface/suit/fonts/variable/woff2/SUIT-Variable.woff2?url';
 	import './app.css';
 	import { articles, categories } from './content';
 
@@ -31,6 +32,17 @@
 		}
 	};
 </script>
+
+<svelte:head>
+	{#each categories as category}
+		{#each articles[category] as article}
+			{#if article.image !== false}
+				<link rel="preload" href="/{article.id}.avif" as="image" />
+			{/if}
+		{/each}
+	{/each}
+	<link rel="preload" href={suitWoff2} as="font" type="font/woff2" />
+</svelte:head>
 
 <svelte:window
 	onresize={() => {
