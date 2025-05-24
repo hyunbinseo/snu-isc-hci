@@ -2,6 +2,13 @@
 	import type { Article } from './content';
 
 	let { article, isBookmarked }: { article: Article; isBookmarked: boolean } = $props();
+
+	const bodyPromise = import('./bodies.json').then((m) => {
+		const json = m.default as Partial<Record<string, string>>;
+		const body = json[article.id];
+		if (!body) throw new Error();
+		return body;
+	});
 </script>
 
 <li>
@@ -32,6 +39,9 @@
 			<!-- svelte-ignore a11y_missing_attribute -->
 			<img draggable="false" src="/{article.id}.avif" />
 		{/if}
+		{#await bodyPromise then body}
+			<p class="body">{body}</p>
+		{/await}
 		{#if article.url}
 			<a href={article.url} target="_blank">더 알아보기</a>
 		{/if}
@@ -43,7 +53,7 @@
 
 	li {
 		&:has(input:checked) {
-			@apply m-2; /* For margin collapse. */
+			@apply m-3.5; /* For margin collapse. */
 		}
 		> label {
 			@apply relative bg-white text-left break-keep select-none;
@@ -52,17 +62,17 @@
 			}
 			&:has(input:not(:checked)) {
 				@apply flex h-36;
-				> img {
-					@apply aspect-[3/4] h-full shrink-0 object-cover object-top-left;
-				}
-				> a {
+				> div ~ * {
 					@apply hidden;
+				}
+				> img {
+					@apply block aspect-[3/4] h-full shrink-0 object-cover object-top-left;
 				}
 			}
 			&:has(input:checked) {
 				@apply flex flex-col;
 				> div {
-					@apply sticky top-(--card-sticky-top,0) bg-white;
+					@apply sticky top-(--card-sticky-top,0) border-b-2 border-gray-200 bg-white;
 				}
 				> img {
 					@apply w-full;
@@ -88,6 +98,12 @@
 			}
 			> a {
 				@apply m-4 rounded bg-blue-600 p-2 text-center text-sm text-white;
+			}
+			> p.body {
+				@apply p-4 text-xs whitespace-pre-line;
+				+ a {
+					@apply mt-0;
+				}
 			}
 		}
 	}
