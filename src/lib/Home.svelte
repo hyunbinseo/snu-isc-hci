@@ -29,12 +29,29 @@
 {/snippet}
 
 {#if isInboxZero}
-	<div class="flex min-h-full flex-col items-center justify-center gap-y-2">
-		<h2 class="text-xl font-bold">텅- 비었어요!</h2>
+	<div class="flex min-h-full flex-col items-center justify-center">
+		<!-- https://icons.pqoqubbw.dev/ -->
+		<svg
+			name="thumbs-up"
+			xmlns="http://www.w3.org/2000/svg"
+			class="size-24"
+			viewBox="0 0 24 24"
+			fill="none"
+			stroke="black"
+			stroke-width="2"
+			stroke-linecap="round"
+			stroke-linejoin="round"
+		>
+			<path d="M7 10v12" />
+			<path
+				d="M15 5.88 14 10h5.83a2 2 0 0 1 1.92 2.56l-2.33 8A2 2 0 0 1 17.5 22H4a2 2 0 0 1-2-2v-8a2 2 0 0 1 2-2h2.76a2 2 0 0 0 1.79-1.11L12 2a3.13 3.13 0 0 1 3 3.88Z"
+			/>
+		</svg>
+		<h2 class="mt-6 text-xl font-bold">텅- 비었어요!</h2>
 		<button
 			type="button"
 			onclick={() => (isInboxZero = false)}
-			class="text-sm text-blue-600 underline underline-offset-4">잘못 눌렀어요.</button
+			class="mt-2 text-sm text-blue-600 underline underline-offset-4">잘못 눌렀어요.</button
 		>
 	</div>
 {:else}
@@ -62,6 +79,21 @@
 
 	ul > :global(*) {
 		--card-sticky-top: calc(var(--spacing) * 10);
+	}
+
+	svg[name='thumbs-up'] {
+		transform: translate(-1px, -2px) rotate(-12deg);
+		animation: thumbs-up 2s infinite cubic-bezier(0.34, 1.56, 0.64, 1);
+	}
+
+	@keyframes thumbs-up {
+		0%,
+		100% {
+			transform: translate(-1px, -2px) rotate(-12deg);
+		}
+		50% {
+			transform: translate(0, 0) rotate(0deg);
+		}
 	}
 
 	details {
