@@ -51,14 +51,16 @@
 </script>
 
 <svelte:head>
-	{#each categories as category}
-		{#each articles[category] as article}
-			{#if article.image !== false}
-				<link rel="preload" href="/{article.id}.avif" as="image" />
-			{/if}
+	{#if !DEV}
+		{#each categories as category}
+			{#each articles[category] as article}
+				{#if article.image !== false}
+					<link rel="preload" href="/{article.id}.avif" as="image" />
+				{/if}
+			{/each}
 		{/each}
-	{/each}
-	<link rel="preload" href={suitWoff2} as="font" type="font/woff2" />
+		<link rel="preload" href={suitWoff2} as="font" type="font/woff2" />
+	{/if}
 </svelte:head>
 
 <svelte:window
@@ -123,13 +125,16 @@
 	>
 		{#if !categorySet.size}
 			<Welcome {categorySet} {dialog}></Welcome>
-		{:else if pageId === 'Search'}
-			<Search></Search>
-		{:else if pageId === 'Bookmarks'}
-			<Bookmarks {bookmarkSet}></Bookmarks>
-		{:else if pageId === 'Home'}
+		{:else}
 			<!-- TODO Keep scroll state on navigation. -->
-			<Home {bookmarkSet} {categorySet}></Home>
+			<div class={pageId === 'Home' ? 'contents' : 'hidden'}>
+				<Home {bookmarkSet} {categorySet}></Home>
+			</div>
+			{#if pageId === 'Search'}
+				<Search></Search>
+			{:else if pageId === 'Bookmarks'}
+				<Bookmarks {bookmarkSet}></Bookmarks>
+			{/if}
 		{/if}
 	</form>
 	<nav
