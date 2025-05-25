@@ -43,7 +43,9 @@
 >
 	<div class={!isSelected ? 'contents' : 'hidden'}>
 		{@render header(
-			'관심 항목을 모두 선택하세요.', //
+			categorySet.size < minCount
+				? `관심 항목을 ${minCount}개 이상 선택하세요.`
+				: '관심 항목을 모두 선택하세요.', //
 			'누른 순서대로 먼저 보여드릴게요.',
 		)}
 		{#each categories as category}
@@ -60,7 +62,7 @@
 			}}
 			class="primary mt-auto"
 		>
-			{categorySet.size < minCount ? `${minCount}개 이상 골라주세요.` : '다 골랐어요!'}
+			{categorySet.size < minCount ? '더 골라주세요.' : '다 골랐어요!'}
 		</button>
 	</div>
 	{#if isSelected}
