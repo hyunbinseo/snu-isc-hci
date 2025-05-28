@@ -3,6 +3,8 @@
 
 	let { article, isBookmarked }: { article: Article; isBookmarked: boolean } = $props();
 
+	const images = import.meta.glob<string>('./images/**.avif', { query: '?url', import: 'default' });
+
 	const bodyPromise = import('./bodies.json').then((m) => {
 		const json = m.default as Partial<Record<string, string>>;
 		const body = json[article.id];
@@ -13,8 +15,10 @@
 
 {#snippet image()}
 	{#if article.image !== false}
-		<!-- svelte-ignore a11y_missing_attribute -->
-		<img draggable="false" src="/{article.id}.avif" />
+		{#await images[`./images/${article.id}.avif`]() then src}
+			<!-- svelte-ignore a11y_missing_attribute -->
+			<img draggable="false" {src} />
+		{/await}
 	{/if}
 {/snippet}
 
@@ -47,6 +51,8 @@
 		{@render image()}
 		{#await bodyPromise then body}
 			<p>{body}</p>
+		{:catch}
+			<!-- Avoid Uncaught (in promise) Error: -->
 		{/await}
 		{#if article.url}
 			<nav>
