@@ -104,7 +104,7 @@
 	@reference './app.css';
 
 	label {
-		@apply border-1 border-gray-400 p-3;
+		@apply border-1 border-gray-400 p-3 select-none;
 		&:has(input:checked) {
 			@apply border-blue-600 bg-blue-50;
 		}
