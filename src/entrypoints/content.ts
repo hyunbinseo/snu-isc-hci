@@ -2,7 +2,7 @@ import { mount, unmount } from 'svelte';
 import App from '../lib/App.svelte';
 
 export default defineContentScript({
-	matches: import.meta.env.DEV ? ['<all_urls>'] : ['https://myetl.snu.ac.kr/*'],
+	matches: ['<all_urls>'],
 	cssInjectionMode: 'ui',
 	main: async (ctx) => {
 		let app: Record<string, any>;
